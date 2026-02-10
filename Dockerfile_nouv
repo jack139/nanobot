@@ -1,0 +1,24 @@
+FROM python:3.12-slim
+
+WORKDIR /app
+
+# Install Python dependencies first (cached layer)
+COPY pyproject.toml.lean ./pyproject.toml
+RUN mkdir -p nanobot && touch nanobot/__init__.py && \
+    pip install --no-cache-dir -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com --extra-index-url http://mirrors.aliyun.com/pypi/simple/ . && \
+    rm -rf nanobot
+
+# Copy the full source and install
+COPY nanobot/ nanobot/
+RUN pip install --no-cache-dir -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com --extra-index-url http://mirrors.aliyun.com/pypi/simple/ .
+
+WORKDIR /app
+
+# Create config directory
+RUN mkdir -p /root/.nanobot
+
+# Gateway default port
+EXPOSE 18790
+
+ENTRYPOINT ["nanobot"]
+CMD ["status"]
