@@ -28,6 +28,9 @@ docker run -v ~/.nanobot:/root/.nanobot -p 18790:18790 nanobot gateway
 docker run -v ~/.nanobot:/root/.nanobot --rm nanobot agent -m "Hello!"
 docker run -v ~/.nanobot:/root/.nanobot --rm nanobot status
 
+# Interactive chat with logs
+docker run -v ~/.nanobot:/root/.nanobot --rm nanobot agent --logs
+
 # for test
 docker run -it -v ~/.nanobot:/root/.nanobot --rm --entrypoint bash nanobot
 ```
