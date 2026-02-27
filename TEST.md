@@ -11,10 +11,10 @@ docker build -t nanobot -f ./Dockerfile_nouv .
 
 ```bash
 # Initialize config (first time only)
-docker run -v ~/.nanobot:/root/.nanobot --rm nanobot onboard
+docker run -v ./tests/.nanobot:/root/.nanobot --rm nanobot onboard
 
 # Edit config on host to add API keys
-vim ~/.nanobot/config.json
+vim ./tests/.nanobot/config.json
 ```
 
 
@@ -22,12 +22,12 @@ vim ~/.nanobot/config.json
 
 ```bash
 # Or run a single command
-docker run -v ~/.nanobot:/root/.nanobot --rm nanobot agent -m "Hello!"
-docker run -v ~/.nanobot:/root/.nanobot --rm nanobot status
+docker run -v ./tests/.nanobot:/root/.nanobot --rm nanobot agent -m "Hello!"
+docker run -v ./tests/.nanobot:/root/.nanobot --rm nanobot status
 
 # Interactive chat with logs
-docker run -it -v ~/.nanobot:/root/.nanobot --rm nanobot agent --logs
+docker run -it -v ./tests/.nanobot:/root/.nanobot --rm nanobot agent --logs
 
 # for test
-docker run -it -v ~/.nanobot:/root/.nanobot --rm --entrypoint bash nanobot
+docker run -it -v ./tests/.nanobot:/root/.nanobot --rm --entrypoint bash nanobot
 ```
