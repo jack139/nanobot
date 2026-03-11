@@ -7,7 +7,6 @@ from typing import Any
 
 from loguru import logger
 
-from nanobot.bus.events import OutboundMessage
 from nanobot.bus.queue import MessageBus
 from nanobot.channels.base import BaseChannel
 from nanobot.config.schema import Config
@@ -74,7 +73,8 @@ class ChannelManager:
             try:
                 from nanobot.channels.feishu import FeishuChannel
                 self.channels["feishu"] = FeishuChannel(
-                    self.config.channels.feishu, self.bus
+                    self.config.channels.feishu, self.bus,
+                    groq_api_key=self.config.providers.groq.api_key,
                 )
                 logger.info("Feishu channel enabled")
             except ImportError as e:
@@ -148,6 +148,18 @@ class ChannelManager:
                 logger.info("Matrix channel enabled")
             except ImportError as e:
                 logger.warning("Matrix channel not available: {}", e)
+
+        # WeCom channel
+        if self.config.channels.wecom.enabled:
+            try:
+                from nanobot.channels.wecom import WecomChannel
+                self.channels["wecom"] = WecomChannel(
+                    self.config.channels.wecom,
+                    self.bus,
+                )
+                logger.info("WeCom channel enabled")
+            except ImportError as e:
+                logger.warning("WeCom channel not available: {}", e)
 
         self._validate_allow_from()
 
